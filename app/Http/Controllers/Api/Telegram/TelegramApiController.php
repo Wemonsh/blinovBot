@@ -140,11 +140,12 @@ class TelegramApiController extends Controller
     }
 
     public function getfile() {
-        $telegram = new Api('1366419508:AAE5tLZEuwzuVTU4CSH67_jD43bOaOVP7kE');
+        $telegram = new Api(env('TELEGRAM_BOT_TOKEN'));
 
 
 
-        $result = $telegram->setWebhook(['url' => 'https://12e13ecd7cf3.ngrok.io/api/telegram']);
+        $result = $telegram->setWebhook(['url' => env('TELEGRAM_BOT_LINK')]);
+        //$result = $telegram->setWebhook(['url' => 'https://blinov.wemonsh.ru/api/telegram']);
 //
   dd($result);
 //        try {

@@ -27,10 +27,15 @@ class Dialog
         $this->current = $this->user->step;
     }
 
+    public function init() {
+
+    }
+
     public function start() {
         $this->user->step = 0;
         $this->user->save();
         $step = $this->steps[0];
+        $this->init();
         $this->$step();
     }
 
@@ -38,6 +43,7 @@ class Dialog
         if ($this->current === null) {
             //$this->start();
         } else {
+            $this->init();
             $step = $this->steps[$this->current];
             $this->$step();
         }
@@ -80,6 +86,7 @@ class Dialog
 
     public function end() {
         $this->user->step = null;
+        $this->user->dialog = null;
         $this->user->save();
     }
 }
