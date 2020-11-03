@@ -13,6 +13,10 @@ class TelegramUserService
             return $user;
         } else {
             $user = new TelegramUser();
+            if (isset($value['id']) && !empty($value['id'])) {
+                $user->uid = $value['id'];
+            }
+
             if (isset($value['first_name']) && !empty(['first_name'])) {
                 $user->first_name = $value['first_name'];
             }
