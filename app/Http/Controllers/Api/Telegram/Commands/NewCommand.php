@@ -41,6 +41,10 @@ class NewCommand extends Command
         $userService = new TelegramUserService();
         $user = $userService->getUserById($updates['message']['from']);
 
+        $user->step = null;
+        $user->dialog = null;
+        $user->save();
+
         //$dialog = new AzurDialog($this->telegram, $user, $updates);
         $dialog = new RegisterDialog($this->telegram, $user, $updates);
         $dialog->start();
