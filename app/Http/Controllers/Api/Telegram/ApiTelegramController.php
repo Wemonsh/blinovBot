@@ -30,16 +30,10 @@ class ApiTelegramController extends Controller
     {
         Log::info('updates',$this->telegramUpdates);
 
-        //$dialog = new AzurDialog($this->telegram, $this->telegramUser, $this->telegramUpdates);
+        $dialog = new AzurDialog($this->telegram, $this->telegramUser, $this->telegramUpdates);
         if ($this->telegramUser->dialog !== null) {
             $dialog = new $this->telegramUser->dialog($this->telegram, $this->telegramUser, $this->telegramUpdates);
             $dialog->process();
         }
-
-
-
-
-
-
     }
 }
