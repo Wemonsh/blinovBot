@@ -37,6 +37,9 @@ class ApproveDialog extends Dialog
 
         $this->api->sendMessage([ 'chat_id' => $this->user->uid , 'text' => 'Укажите номер пользователя которому необходимо отправить приглашение' ]);
 
+        $this->user->step = 1;
+        $this->user->save();
+
         $this->get_next();
     }
 

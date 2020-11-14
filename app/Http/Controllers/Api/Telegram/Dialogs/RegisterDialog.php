@@ -27,7 +27,8 @@ class RegisterDialog extends Dialog
 
     protected function startDialog() {
         $this->api->sendMessage([ 'chat_id' => $this->user->uid , 'text' => 'Введите пожалуйста ваше ФИО' ]);
-
+        $this->user->step = 1;
+        $this->user->save();
         $this->get_next();
     }
 
