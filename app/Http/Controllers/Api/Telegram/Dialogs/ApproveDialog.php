@@ -53,7 +53,7 @@ class ApproveDialog extends Dialog
 
         $keyboard = array(
             array(
-                array('text'=>'Вступить в группу','url'=>'https://348467db1d8e.ngrok.io/t/'.$user->uid)
+                array('text'=>'Вступить в группу','url'=>'https://blinov.wemonsh.ru/t/'.$user->uid)
             )
         );
 
