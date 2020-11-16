@@ -13,6 +13,8 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+Route::get('/t/{uid}','App\Http\Controllers\RedirectController@redirect');
+
 Route::get('/', function () {
     return view('welcome');
 });

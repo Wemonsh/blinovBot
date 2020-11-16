@@ -48,7 +48,18 @@ class ApproveDialog extends Dialog
         $resident = Resident::withoutTrashed()->where('id', $this->message['message']['text'])->first();
         $user = TelegramUser::withoutTrashed()->where('id', $resident->user_id)->first();
 
-        $this->api->sendMessage([ 'chat_id' => $user->uid , 'text' => 'https://t.me/joinchat/CgQ3Wh0qdmwPfeNU3MHopg' ]);
+        $user->invite = null;
+        $user->save();
+
+        $keyboard = array(
+            array(
+                array('text'=>'Вступить в группу','url'=>'https://348467db1d8e.ngrok.io/t/'.$user->uid)
+            )
+        );
+
+        $this->api->sendMessage([ 'chat_id' => $user->uid , 'text' => 'Для принятия приглашения в закрытую группу ЖК Сердце Столицы нажмите ниже на кнопку "вступить в группу".',
+            'disable_web_page_preview' => false,
+            'reply_markup' => json_encode(array('inline_keyboard' => $keyboard))]);
 
         $this->api->sendMessage([ 'chat_id' => $this->user->uid , 'text' => 'Спасибо большое пользователю отправлено приглашение' ]);
         $this->end();
