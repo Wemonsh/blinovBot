@@ -40,9 +40,19 @@ class ListCommand extends Command
         $user->dialog = null;
         $user->save();
 
-        //$dialog = new AzurDialog($this->telegram, $user, $updates);
-        $dialog = new ApproveDialog($this->telegram, $user, $updates);
-        $dialog->start();
+        if ($user->is_admin == 1) {
+            //$dialog = new AzurDialog($this->telegram, $user, $updates);
+            $dialog = new ApproveDialog($this->telegram, $user, $updates);
+            $dialog->start();
+        } else {
+            $this->api->sendMessage(
+                [
+                    'chat_id' => $user->uid ,
+                    'text' => 'У вас нет доступа для выполнения данной команды.'
+                ]
+            );
+        }
+
         exit();
     }
 }
