@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api\Telegram\Commands;
 use App\Http\Controllers\Api\Telegram\Dialogs\AzurDialog;
 use App\Http\Controllers\Api\Telegram\Dialogs\ApproveDialog;
 use App\Http\Controllers\Api\Telegram\Services\TelegramUserService;
+use Telegram\Bot\Api;
 use Telegram\Bot\Commands\Command;
 
 /**
@@ -32,6 +33,7 @@ class ListCommand extends Command
      */
     public function handle()
     {
+        $telegram = new Api(env('TELEGRAM_BOT_TOKEN'));
         $updates = $this->getUpdate()->toArray();
         $userService = new TelegramUserService();
         $user = $userService->getUserById($updates['message']['from']);
@@ -45,7 +47,7 @@ class ListCommand extends Command
             $dialog = new ApproveDialog($this->telegram, $user, $updates);
             $dialog->start();
         } else {
-            $this->api->sendMessage(
+            $telegram->sendMessage(
                 [
                     'chat_id' => $user->uid ,
                     'text' => 'У вас нет доступа для выполнения данной команды.'
