@@ -10,4 +10,9 @@ class Resident extends Model
 {
     use HasFactory;
     use SoftDeletes;
+
+    public function telegramUser()
+    {
+        return $this->hasOne(TelegramUser::class, 'id', 'user_id');
+    }
 }

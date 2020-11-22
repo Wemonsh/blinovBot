@@ -18,10 +18,11 @@ class ApproveDialog extends Dialog
     }
 
     protected function startDialog() {
-
-        $residents = Resident::withoutTrashed()->where('invited', 0)->get();
+        $residents = Resident::with('telegramUser')->where('invited', 0)->get();
         foreach ($residents as $resident) {
             $text = '#'.$resident->id.
+                PHP_EOL.
+                '@'.$resident->telegramUser->first_name.
                 PHP_EOL.
                 '😊 '.$resident->full_name.
                 PHP_EOL.
@@ -34,7 +35,10 @@ class ApproveDialog extends Dialog
                 '🚘 '.$resident->parking_numbers;
             $this->api->sendMessage([ 'chat_id' => $this->user->uid , 'text' => $text ]);
         }
-
+        if (count($residents) === 0) {
+            $this->api->sendMessage([ 'chat_id' => $this->user->uid , 'text' => 'Нет заявок в данный момент' ]);
+            exit();
+        }
         $this->api->sendMessage([ 'chat_id' => $this->user->uid , 'text' => 'Укажите номер пользователя которому необходимо отправить приглашение' ]);
 
         $this->user->step = 1;
@@ -50,6 +54,9 @@ class ApproveDialog extends Dialog
 
         $user->invite = null;
         $user->save();
+
+        $resident->invited = 1;
+        $resident->save();
 
         $keyboard = array(
             array(
