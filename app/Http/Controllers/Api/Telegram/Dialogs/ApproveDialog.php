@@ -49,7 +49,8 @@ class ApproveDialog extends Dialog
 
     protected function approveRequest() {
 
-        $resident = Resident::withoutTrashed()->where('id', $this->message['message']['text'])->first();
+        $resident = Resident::withoutTrashed()->where('id', $this->message['message']['text'])
+            ->whereNotNull('full_name')->first();
         $user = TelegramUser::withoutTrashed()->where('id', $resident->user_id)->first();
 
         $user->invite = null;
