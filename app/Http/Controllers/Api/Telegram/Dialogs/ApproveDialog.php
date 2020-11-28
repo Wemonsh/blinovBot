@@ -18,7 +18,7 @@ class ApproveDialog extends Dialog
     }
 
     protected function startDialog() {
-        $residents = Resident::with('telegramUser')->where('invited', 0)->get();
+        $residents = Resident::with('telegramUser')->where('invited', 0)->whereNotNull('full_name')->get();
         foreach ($residents as $resident) {
             $text = '#'.$resident->id.
                 PHP_EOL.
@@ -49,8 +49,7 @@ class ApproveDialog extends Dialog
 
     protected function approveRequest() {
 
-        $resident = Resident::withoutTrashed()->where('id', $this->message['message']['text'])
-            ->whereNotNull('full_name')->first();
+        $resident = Resident::withoutTrashed()->where('id', $this->message['message']['text'])->first();
         $user = TelegramUser::withoutTrashed()->where('id', $resident->user_id)->first();
 
         $user->invite = null;
