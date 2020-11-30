@@ -32,7 +32,9 @@ class ApproveDialog extends Dialog
                 PHP_EOL.
                 '🏠 '.$resident->apartment_numbers.
                 PHP_EOL.
-                '🚘 '.$resident->parking_numbers;
+                '🚘 '.$resident->parking_numbers.
+                PHP_EOL.
+                '⏰ '.$resident->updated_at;
             $this->api->sendMessage([ 'chat_id' => $this->user->uid , 'text' => $text ]);
         }
         if (count($residents) === 0) {
